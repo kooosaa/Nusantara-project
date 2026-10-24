@@ -3,168 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toko Online Sederhana</title>
-    <!-- Menggunakan Tailwind CSS untuk styling yang cepat dan rapi -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Halaman Utama (index.html)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #f4f4f9;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body>
+    <h1>welcome to jakbar ui</h1>
+    <p>yang baca gay</p>
+    <h1>Selamat Datang di Halaman Utama!</h1>
+    <p>Ini adalah file pertama Anda: <strong>index.html</strong></p>
 
-    <!-- Navbar -->
-    <nav class="bg-blue-600 text-white p-4 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">TokoKita</h1>
-            <div class="flex items-center gap-4">
-                <button id="cart-btn" class="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition">
-                    🛒 Keranjang (<span id="cart-count">0</span>)
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="container mx-auto p-4 flex-grow grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-        
-        <!-- Daftar Produk -->
-        <div class="md:col-span-3">
-            <h2 class="text-xl font-bold mb-4 text-gray-800">Katalog Produk</h2>
-            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Produk akan dimuat di sini oleh JavaScript -->
-            </div>
-        </div>
-
-        <!-- Sidebar Keranjang Belanja -->
-        <div class="md:col-span-1">
-            <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 sticky top-24">
-                <h2 class="text-xl font-bold mb-4 text-gray-800">Keranjang Belanja</h2>
-                <div id="cart-items" class="space-y-4 mb-4 text-gray-600">
-                    <p class="text-sm italic text-center">Keranjang masih kosong</p>
-                </div>
-                <div class="border-t pt-4">
-                    <div class="flex justify-between font-bold text-lg text-gray-800 mb-4">
-                        <span>Total:</span>
-                        <span id="cart-total">Rp 0</span>
-                    </div>
-                    <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition" onclick="checkout()">
-                        Checkout
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white text-center p-4 mt-8">
-        <p>&copy; 2026 TokoKita. Semua Hak Dilindungi.</p>
-    </footer>
-
-    <!-- JavaScript Logic -->
-    <script>
-        // Data Produk Dummy
-        const products = [
-            { id: 1, name: "Laptop Pro 14", price: 12000000, image: "https://via.placeholder.com/300x200?text=Laptop+Pro" },
-            { id: 2, name: "Smartphone X", price: 8500000, image: "https://via.placeholder.com/300x200?text=Smartphone" },
-            { id: 3, name: "Headphone Bluetooth", price: 750000, image: "https://via.placeholder.com/300x200?text=Headphone" },
-            { id: 4, name: "Keyboard Mekanikal", price: 950000, image: "https://via.placeholder.com/300x200?text=Keyboard" },
-            { id: 5, name: "Mouse Gaming", price: 450000, image: "https://via.placeholder.com/300x200?text=Mouse" },
-            { id: 6, name: "Monitor 24 Inch", price: 2100000, image: "https://via.placeholder.com/300x200?text=Monitor" }
-        ];
-
-        let cart = [];
-
-        // Format angka ke Rupiah
-        const formatRupiah = (number) => {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
-        };
-
-        // Render Produk ke layar
-        const renderProducts = () => {
-            const productList = document.getElementById('product-list');
-            productList.innerHTML = '';
-
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition';
-                productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-800 text-lg">${product.name}</h3>
-                        <p class="text-blue-600 font-semibold mt-1">${formatRupiah(product.price)}</p>
-                        <button onclick="addToCart(${product.id})" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
-                            Tambah ke Keranjang
-                        </button>
-                    </div>
-                `;
-                productList.appendChild(productCard);
-            });
-        };
-
-        // Tambah produk ke keranjang
-        const addToCart = (productId) => {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
-
-            if (existingItem) {
-                existingItem.qty += 1;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
-            updateCart();
-        };
-
-        // Hapus produk dari keranjang
-        const removeFromCart = (productId) => {
-            cart = cart.filter(item => item.id !== productId);
-            updateCart();
-        };
-
-        // Update tampilan keranjang
-        const updateCart = () => {
-            const cartItems = document.getElementById('cart-items');
-            const cartCount = document.getElementById('cart-count');
-            const cartTotal = document.getElementById('cart-total');
-
-            cartItems.innerHTML = '';
-            let total = 0;
-            let count = 0;
-
-            if (cart.length === 0) {
-                cartItems.innerHTML = '<p class="text-sm italic text-center text-gray-500">Keranjang masih kosong</p>';
-            } else {
-                cart.forEach(item => {
-                    total += item.price * item.qty;
-                    count += item.qty;
-
-                    const cartItem = document.createElement('div');
-                    cartItem.className = 'flex justify-between items-center bg-gray-50 p-2 rounded border';
-                    cartItem.innerHTML = `
-                        <div>
-                            <p class="font-semibold text-sm text-gray-800">${item.name}</p>
-                            <p class="text-xs text-gray-500">${item.qty} x ${formatRupiah(item.price)}</p>
-                        </div>
-                        <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-sm font-bold">X</button>
-                    `;
-                    cartItems.appendChild(cartItem);
-                });
-            }
-
-            cartCount.innerText = count;
-            cartTotal.innerText = formatRupiah(total);
-        };
-
-        // Simulasi Checkout
-        const checkout = () => {
-            if (cart.length === 0) {
-                alert("Keranjang belanja Anda kosong. Silakan pilih produk terlebih dahulu!");
-                return;
-            }
-            alert(`Terima kasih telah berbelanja!\nTotal tagihan Anda adalah: ${document.getElementById('cart-total').innerText}`);
-            cart = [];
-            updateCart();
-        };
-
-        // Inisialisasi awal
-        renderProducts();
-    </script>
+    <!-- Tombol untuk berpindah ke halaman dua menggunakan tag <a> -->
+    <a href="halaman2.html">
+        <button>Pindah ke Halaman 2</button>
+    </a>
+    <h1>welcome to the nusantara</h1>
+    <a href="halaman3.html">
+        <button>pergi ke halaman 3</button>
+    </a>
 </body>
 </html>
